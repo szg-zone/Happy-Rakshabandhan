@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html class="light scroll-smooth" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Official Sister Certificate™ | Sister Audit & 3D Rakhi</title>
+
+    <!-- Tailwind CSS with custom config -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@100..800&family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400..800;1,400..800&family=Syne:wght@400..800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#544600",
+                        "on-secondary-container": "#fffbff",
+                        "on-background": "#1c1b1b",
+                        "surface-variant": "#e5e2e1",
+                        "primary": "#705d00",
+                        "tertiary-container": "#dbdbc3",
+                        "inverse-on-surface": "#f3f0ef",
+                        "surface-tint": "#705d00",
+                        "secondary-fixed-dim": "#ffb3b1",
+                        "inverse-surface": "#313030",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#5e604d",
+                        "secondary": "#b7102a",
+                        "secondary-container": "#db313f",
+                        "on-tertiary-container": "#5f604d",
+                        "on-surface-variant": "#4d4732",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#221b00",
+                        "surface-container-high": "#eae7e7",
+                        "background": "#fcf9f8",
+                        "primary-fixed-dim": "#e9c400",
+                        "surface-container": "#f0eded",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#7e775f",
+                        "on-primary-container": "#705e00",
+                        "on-surface": "#1c1b1b",
+                        "on-secondary-fixed": "#410007",
+                        "surface": "#fcf9f8",
+                        "secondary-fixed": "#ffdad8",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffe16d",
+                        "on-tertiary-fixed": "#1b1d0e",
+                        "surface-container-highest": "#e5e2e1",
+                        "tertiary-fixed": "#e4e4cc",
+                        "surface-container-low": "#f6f3f2",
+                        "outline-variant": "#d0c6ab",
+                        "surface-dim": "#dcd9d9",
+                        "on-secondary-fixed-variant": "#92001c",
+                        "on-tertiary-fixed-variant": "#474836",
+                        "surface-bright": "#fcf9f8",
+                        "inverse-primary": "#e9c400",
+                        "tertiary-fixed-dim": "#c8c8b0",
+                        "primary-container": "#ffd700",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "gutter": "16px",
+                        "grid-margin": "24px",
+                        "section-gap": "80px",
+                        "stack-overlap": "-12px"
+                    },
+                    fontFamily: {
+                        "data-mono": ["JetBrains Mono", "monospace"],
+                        "receipt-text": ["Courier Prime", "monospace"],
+                        "caption-sm": ["JetBrains Mono", "monospace"],
+                        "audit-header-xl-mobile": ["Syne", "sans-serif"],
+                        "stamp-label": ["Syne", "sans-serif"],
+                        "audit-header-xl": ["Syne", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                        "sans": ["Outfit", "sans-serif"]
+                    },
+                    fontSize: {
+                        "data-mono": ["16px", { "lineHeight": "1.5", "fontWeight": "500" }],
+                        "receipt-text": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "caption-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "audit-header-xl-mobile": ["40px", { "lineHeight": "1.1", "fontWeight": "800" }],
+                        "stamp-label": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "audit-header-xl": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800" }]
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Three.js and Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            position: relative;
+            overflow-x: hidden;
+            background-color: theme('colors.background');
+        }
+        
+        /* Global Noise Texture */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .brutalist-border {
+            border: 3px solid theme('colors.on-background');
+        }
+
+        .brutalist-button {
+            transition: all 0.1s ease;
+            box-shadow: 4px 4px 0px 0px theme('colors.on-background');
+        }
+
+        .brutalist-button:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px 0px theme('colors.on-background');
+        }
+        
+        .washi-tape {
+            position: absolute;
+            width: 80px;
+            height: 25px;
+            background-color: rgba(255, 215, 0, 0.7);
+            opacity: 0.85;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-3deg);
+            z-index: 10;
+            border: 1px dashed rgba(0,0,0,0.2);
+            mix-blend-mode: multiply;
+        }
+
+        .stamp {
+            position: absolute;
+            color: theme('colors.secondary');
+            border: 4px solid theme('colors.secondary');
+            padding: 4px 12px;
+            text-transform: uppercase;
+            font-weight: 800;
+            transform: rotate(-15deg);
+            opacity: 0.9;
+            mix-blend-mode: multiply;
+            pointer-events: none;
+        }
+
+        .sticker {
+            position: absolute;
+            background: white;
+            border: 2px solid black;
+            padding: 4px 8px;
+            font-family: theme('fontFamily.stamp-label');
+            font-size: theme('fontSize.caption-sm');
+            box-shadow: 2px 2px 0 black;
+            transform: rotate(5deg);
+            z-index: 20;
+            cursor: pointer;
+        }
+
+        /* Floating Sparkle Particles */
+        #bg-particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.15; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stat-number {
+            animation: countUp 1s ease-out forwards;
+        }
+
+        /* Glitch Animation */
+        .text-glitch {
+            position: relative;
+            display: inline-block;
+        }
+        .text-glitch::before,
+        .text-glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            clip: rect(0, 0, 0, 0);
+        }
+        .text-glitch::before {
+            left: -2px;
+            text-shadow: 2px 0 #b7102a;
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+        .text-glitch::after {
+            left: 2px;
+            text-shadow: -2px 0 #705d00;
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip: rect(20px, 9999px, 15px, 0); }
+            20% { clip: rect(60px, 9999px, 70px, 0); }
+            40% { clip: rect(10px, 9999px, 85px, 0); }
+            60% { clip: rect(40px, 9999px, 30px, 0); }
+            80% { clip: rect(80px, 9999px, 5px, 0); }
+            100% { clip: rect(25px, 9999px, 95px, 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(50px, 9999px, 30px, 0); }
+            20% { clip: rect(10px, 9999px, 80px, 0); }
+            40% { clip: rect(70px, 9999px, 10px, 0); }
+            60% { clip: rect(30px, 9999px, 60px, 0); }
+            80% { clip: rect(90px, 9999px, 40px, 0); }
+            100% { clip: rect(15px, 9999px, 75px, 0); }
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; color: black !important; }
+        }
+    </style>
+</head>
+
+<body class="text-on-background font-data-mono selection:bg-primary-container selection:text-on-primary-container bg-background">
+
+    <!-- Ambient Floating Gold/Amber Particles -->
+    <div id="bg-particles"></div>
+
+    <!-- ========================================== -->
+    <!-- 00. GLITCH WARNING LOADING SCREEN OVERLAY -->
+    <!-- ========================================== -->
+    <div id="loading-screen" class="fixed inset-0 z-[10000] bg-[#1c1b1b] text-white flex flex-col items-center justify-center p-6 transition-all duration-700">
+        <div class="max-w-xl w-full brutalist-border p-8 text-center relative overflow-hidden bg-[#242323] shadow-[8px_8px_0_0_#ffd700]">
+            <!-- Hazard stripe top -->
+            <div class="h-3 w-full absolute top-0 left-0" style="background: repeating-linear-gradient(45deg, #ffd700, #ffd700 15px, #1c1b1b 15px, #1c1b1b 30px);"></div>
+            
+            <div class="my-6">
+                <span class="material-symbols-outlined text-7xl text-[#b7102a] animate-bounce">warning</span>
+                <h2 class="font-audit-header-xl-mobile text-3xl font-extrabold text-[#ffd700] tracking-wider uppercase text-glitch mt-2" data-text="SYSTEM AUDIT IN PROGRESS">SYSTEM AUDIT IN PROGRESS</h2>
+                <p class="font-data-mono text-sm text-gray-300 mt-2">SYSTEM_ID: SISTER_AUDIT_v2.04 // SECURE PORT</p>
+            </div>
+
+            <!-- Terminal Output Log -->
+            <div id="terminal-logs" class="bg-black border-2 border-[#ffd700] p-4 font-data-mono text-xs text-left h-36 overflow-y-auto space-y-1 mb-6 text-green-400 shadow-inner">
+                <div>> INITIALIZING SISTER_AUDIT_PROTOCOL...</div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-gray-900 border-2 border-[#ffd700] h-6 p-0.5 relative mb-6">
+                <div id="loader-bar" class="bg-gradient-to-r from-[#b7102a] via-[#ffd700] to-green-400 h-full w-0 transition-all duration-200"></div>
+                <span id="loader-percent" class="absolute inset-0 flex items-center justify-center text-xs font-data-mono font-bold text-white drop-shadow">0%</span>
+            </div>
+
+            <button id="skip-load-btn" onclick="finishLoading()" class="bg-[#ffd700] text-black font-bold border-2 border-black px-6 py-2 text-sm uppercase brutalist-button">
+                SKIP INITIALIZATION →
+            </button>
+        </div>
+    </div>
+
+
+    <!-- Top Navigation Shell -->
+    <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-grid-margin py-3 bg-background dark:bg-inverse-surface border-b-4 border-on-background dark:border-on-surface-variant no-print">
+        <div class="font-audit-header-xl-mobile text-2xl md:text-audit-header-xl-mobile text-primary dark:text-primary-fixed-dim uppercase tracking-tighter flex items-center space-x-2">
+            <span class="inline-block w-3 h-3 rounded-full bg-secondary animate-ping"></span>
+            <span>SISTER AUDIT [FILE-B1FF]</span>
+        </div>
+        <div class="flex items-center space-x-3">
+            <button onclick="openCertificate()" class="bg-primary-container text-on-primary-container border-2 border-on-background font-bold px-3 py-1 text-xs brutalist-button hover:bg-background flex items-center space-x-1">
+                <span class="material-symbols-outlined text-sm align-middle">card_membership</span>
+                <span>CERTIFICATE</span>
+            </button>
+            <button onclick="openPersonalizer()" class="bg-background text-on-background border-2 border-on-background font-bold px-3 py-1 text-xs brutalist-button hover:bg-primary-container flex items-center space-x-1 hidden sm:inline-flex">
+                <span class="material-symbols-outlined text-sm align-middle">settings</span>
+                <span>FOR: <span id="nav-sister-name" class="underline">SISTER</span></span>
+            </button>
+            <button id="sound-toggle" onclick="toggleAudio()" class="bg-background text-on-background border-2 border-on-background font-bold px-3 py-1 text-xs brutalist-button flex items-center space-x-1">
+                <span class="material-symbols-outlined text-sm align-middle">volume_up</span>
+                <span id="sound-state">SFX: ON</span>
+            </button>
+        </div>
+    </nav>
+
+
+    <!-- Side Navigation Shell -->
+    <nav class="fixed left-0 top-0 h-full z-40 hidden lg:flex flex-col p-4 bg-surface-container dark:bg-surface-container-highest border-r-4 border-on-background dark:border-outline docked left-0 h-full w-64 pt-24 no-print">
+        <div class="mb-8 border-b-4 border-on-background pb-4">
+            <div class="font-audit-header-xl-mobile text-secondary uppercase tracking-tight text-xl mb-2">CASE FILE #992</div>
+            <div class="text-caption-sm font-caption-sm text-outline">AUDIT STATUS: <span class="text-secondary font-bold">ACTIVE</span></div>
+        </div>
+        <div class="flex-1 space-y-2" id="sidebar-nav-menu">
+            <a class="nav-item flex items-center space-x-3 bg-primary text-on-primary font-bold border-2 border-on-background m-1 p-2 transition-all" href="#opening" data-section="opening" onclick="setActiveNav('opening')">
+                <span class="material-symbols-outlined">warning</span>
+                <span class="text-data-mono font-data-mono">Warning</span>
+            </a>
+            <a class="nav-item flex items-center space-x-3 text-on-surface-variant p-2 hover:bg-surface-variant border-2 border-transparent transition-all" href="#evidence" data-section="evidence" onclick="setActiveNav('evidence')">
+                <span class="material-symbols-outlined">photo_library</span>
+                <span class="text-data-mono font-data-mono">Evidence</span>
+            </a>
+            <a class="nav-item flex items-center space-x-3 text-on-surface-variant p-2 hover:bg-surface-variant border-2 border-transparent transition-all" href="#statistics" data-section="statistics" onclick="setActiveNav('statistics')">
+                <span class="material-symbols-outlined">analytics</span>
+                <span class="text-data-mono font-data-mono">Statistics</span>
+            </a>
+            <a class="nav-item flex items-center space-x-3 text-on-surface-variant p-2 hover:bg-surface-variant border-2 border-transparent transition-all" href="#legal" data-section="legal" onclick="setActiveNav('legal')">
+                <span class="material-symbols-outlined">gavel</span>
+                <span class="text-data-mono font-data-mono">Legal</span>
+            </a>
+            <a class="nav-item flex items-center space-x-3 text-on-surface-variant p-2 hover:bg-surface-variant border-2 border-transparent transition-all" href="#reveal" data-section="reveal" onclick="setActiveNav('reveal')">
+                <span class="material-symbols-outlined">favorite</span>
+                <span class="text-data-mono font-data-mono">Verdict</span>
+            </a>
+            <a class="nav-item flex items-center space-x-3 text-on-surface-variant p-2 hover:bg-surface-variant border-2 border-transparent transition-all" href="#final" data-section="final" onclick="setActiveNav('final')">
+                <span class="material-symbols-outlined">celebration</span>
+                <span class="text-data-mono font-data-mono">Final Rakhi</span>
+            </a>
+        </div>
+        <div class="mt-auto space-y-2 pt-4 border-t-4 border-on-background">
+            <button class="w-full bg-primary-container text-on-primary-container border-2 border-on-background font-bold py-2 brutalist-button hover:translate-x-1 hover:translate-y-1 mb-4" onclick="document.getElementById('final').scrollIntoView({behavior: 'smooth'})">
+                GENERATE VERDICT
+            </button>
+        </div>
+    </nav>
+
+
+    <!-- Main Content Canvas -->
+    <main class="lg:ml-64 md:pt-20 min-h-screen relative pb-20 md:pb-0">
+
+        <!-- Section 1: Opening Warning -->
+        <section class="min-h-screen flex flex-col items-center justify-center bg-primary-container border-b-4 border-on-background p-grid-margin relative overflow-hidden z-10" id="opening">
+            <div class="max-w-4xl w-full text-center space-y-8 relative z-20">
+                <span class="material-symbols-outlined text-[100px] md:text-[120px] text-on-background block mb-2">warning</span>
+                
+                <h1 class="font-audit-header-xl text-4xl md:text-audit-header-xl md:text-[80px] uppercase text-on-background leading-none text-glitch" data-text="WARNING">
+                    WARNING <span class="material-symbols-outlined text-4xl md:text-6xl align-middle text-error">warning</span>
+                </h1>
+
+                <p class="font-audit-header-xl-mobile text-lg md:text-audit-header-xl-mobile uppercase text-on-primary-container bg-on-background inline-block p-4 border-2 border-on-background shadow-lg">
+                    You have been identified as <br class="hidden md:inline"/>
+                    <span class="text-primary-container underline" id="opening-sister-name">MY SISTER FROM ANOTHER MOTHER™</span>
+                </p>
+
+                <p class="font-receipt-text text-lg md:text-xl text-on-background max-w-2xl mx-auto pt-2">
+                    This website exists because apparently a normal “Happy Rakhi” wasn't enough.
+                </p>
+
+                <div class="mt-12 flex items-center justify-center">
+                    <a class="inline-block bg-background text-on-background font-bold text-xl md:text-2xl py-5 px-10 border-4 border-on-background brutalist-button hover:bg-secondary hover:text-on-secondary hover:border-on-background" href="#evidence" onclick="playClickSFX()">
+                        ENTER AT YOUR OWN RISK →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Floating Stickers -->
+            <div class="sticker top-24 left-10 rotate-[-15deg] bg-secondary text-on-secondary border-on-background">CLASSIFIED</div>
+            <div class="sticker bottom-32 right-10 rotate-[20deg] bg-error text-on-error border-on-background">DANGER: EMOTIONAL DAMAGE</div>
+        </section>
+
+
+        <!-- Section 2: Evidence Gallery -->
+        <section class="py-section-gap px-grid-margin bg-surface-container relative z-10 min-h-screen border-b-4 border-on-background flex flex-col justify-center" id="evidence">
+            <div class="max-w-5xl mx-auto w-full">
+                <div class="mb-8 text-center md:text-left">
+                    <span class="material-symbols-outlined text-4xl text-primary mb-1">photo_camera</span>
+                    <h2 class="font-audit-header-xl-mobile text-2xl md:text-audit-header-xl-mobile uppercase mb-2 border-b-4 border-on-background pb-2 inline-block bg-primary-container px-4">
+                        01 — Evidence
+                    </h2>
+                    <p class="font-receipt-text text-base md:text-lg text-outline italic mt-2">
+                        “Evidence that we should probably not be allowed together.”
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+                    <!-- Exhibit A -->
+                    <div class="bg-surface-container-lowest p-4 pb-12 brutalist-border relative transform md:rotate-[-4deg] hover:rotate-0 transition-transform">
+                        <div class="washi-tape"></div>
+                        <div class="relative group aspect-square bg-on-background flex items-center justify-center border-2 border-on-background overflow-hidden mb-4">
+                            <img id="img-exhibit-a" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'><rect width='100%' height='100%' fill='%23b7102a'/><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='24' fill='%23FFF' text-anchor='middle'>CHAOS LEVEL: 100%</text></svg>" class="w-full h-full object-cover">
+                            
+                            <label class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white cursor-pointer transition p-4 text-center">
+                                <span class="material-symbols-outlined text-3xl mb-1">upload_file</span>
+                                <span class="font-data-mono text-xs font-bold">CLICK TO CHANGE PHOTO</span>
+                                <input type="file" accept="image/*" class="hidden" onchange="uploadExhibitPhoto(event, 'img-exhibit-a')">
+                            </label>
+                        </div>
+                        <div class="font-stamp-label text-lg font-bold">Exhibit A</div>
+                        <div class="font-receipt-text text-sm italic text-on-surface-variant" id="caption-exhibit-a">"No explanation needed."</div>
+                        <div class="absolute bottom-3 right-3 font-receipt-text text-xs bg-primary-container px-2 border-2 border-on-background">CLASSIFIED</div>
+                    </div>
+
+                    <!-- Exhibit B -->
+                    <div class="bg-surface-container-lowest p-4 pb-12 brutalist-border relative transform md:rotate-[5deg] hover:rotate-0 transition-transform md:translate-y-4">
+                        <div class="washi-tape" style="background-color: theme('colors.secondary-fixed-dim'); left: 30%;"></div>
+                        <div class="relative group aspect-square bg-on-background flex items-center justify-center border-2 border-on-background overflow-hidden mb-4">
+                            <img id="img-exhibit-b" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'><rect width='100%' height='100%' fill='%23ffd700'/><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='24' fill='%23000' text-anchor='middle'>BAD DECISION #402</text></svg>" class="w-full h-full object-cover">
+                            
+                            <label class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white cursor-pointer transition p-4 text-center">
+                                <span class="material-symbols-outlined text-3xl mb-1">upload_file</span>
+                                <span class="font-data-mono text-xs font-bold">CLICK TO CHANGE PHOTO</span>
+                                <input type="file" accept="image/*" class="hidden" onchange="uploadExhibitPhoto(event, 'img-exhibit-b')">
+                            </label>
+                        </div>
+                        <div class="font-stamp-label text-lg font-bold">Exhibit B</div>
+                        <div class="font-receipt-text text-sm italic text-on-surface-variant" id="caption-exhibit-b">"We thought this was a good idea."</div>
+                        <div class="absolute bottom-3 right-3 font-receipt-text text-xs bg-secondary text-on-secondary px-2 border-2 border-on-background">EXHIBIT B</div>
+                    </div>
+
+                    <!-- Exhibit C -->
+                    <div class="bg-surface-container-lowest p-4 pb-12 brutalist-border relative transform md:rotate-[-2deg] hover:rotate-0 transition-transform">
+                        <div class="washi-tape" style="top:-5px; left:70%"></div>
+                        <div class="relative group aspect-square bg-on-background flex items-center justify-center border-2 border-on-background overflow-hidden mb-4">
+                            <img id="img-exhibit-c" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'><rect width='100%' height='100%' fill='%231c1b1b'/><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='24' fill='%23ffd700' text-anchor='middle'>ATTEMPTED GLOW UP</text></svg>" class="w-full h-full object-cover">
+                            
+                            <label class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white cursor-pointer transition p-4 text-center">
+                                <span class="material-symbols-outlined text-3xl mb-1">upload_file</span>
+                                <span class="font-data-mono text-xs font-bold">CLICK TO CHANGE PHOTO</span>
+                                <input type="file" accept="image/*" class="hidden" onchange="uploadExhibitPhoto(event, 'img-exhibit-c')">
+                            </label>
+                        </div>
+                        <div class="font-stamp-label text-lg font-bold">Exhibit C</div>
+                        <div class="font-receipt-text text-sm italic text-on-surface-variant" id="caption-exhibit-c">"Character development was attempted."</div>
+                        <div class="absolute bottom-3 right-3 font-receipt-text text-xs bg-surface-variant px-2 border-2 border-on-background">VERIFIED</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Section 3: Sister Statistics -->
+        <section class="py-section-gap px-grid-margin bg-primary-container relative z-10 min-h-screen border-b-4 border-on-background flex flex-col justify-center" id="statistics">
+            <div class="max-w-4xl mx-auto w-full">
+                <div class="bg-surface-container-lowest p-8 brutalist-border relative">
+                    <div class="washi-tape"></div>
+                    
+                    <h2 class="font-audit-header-xl-mobile text-2xl md:text-audit-header-xl-mobile uppercase mb-8 border-b-4 border-on-background pb-4 inline-flex items-center space-x-2 bg-primary text-on-primary px-4">
+                        <span class="material-symbols-outlined text-3xl">military_tech</span>
+                        <span>02 — Sister Statistics [DATA-SET: 992]</span>
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-data-mono">
+                        <div class="bg-background p-6 border-2 border-on-background text-center">
+                            <div class="text-sm text-outline mb-2 uppercase">Unnecessary Arguments</div>
+                            <div class="text-5xl font-bold stat-number count-up text-primary" data-target="847">0</div>
+                        </div>
+
+                        <div class="bg-background p-6 border-2 border-on-background text-center">
+                            <div class="text-sm text-outline mb-2 uppercase">Gossip Sessions</div>
+                            <div class="text-5xl font-bold text-secondary flex items-center justify-center">
+                                <span>∞</span>
+                                <span class="text-xs text-outline font-normal ml-2">(UNLIMITED)</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-background p-6 border-2 border-on-background text-center">
+                            <div class="text-sm text-outline mb-2 uppercase">IG Reels Exchanged</div>
+                            <div class="text-5xl font-bold stat-number count-up text-primary" data-target="12492">0</div>
+                        </div>
+
+                        <div class="bg-background p-6 border-2 border-on-background text-center">
+                            <div class="text-sm text-outline mb-2 uppercase">Times one of us said 'GO AND SLEEP'</div>
+                            <div class="text-5xl font-bold stat-number count-up text-secondary" data-target="37">0</div>
+                        </div>
+
+                        <div class="bg-background p-6 border-2 border-on-background text-center md:col-span-2 bg-secondary text-on-secondary">
+                            <div class="text-sm mb-2 uppercase font-bold">Times we actually stopped talking</div>
+                            <div class="text-6xl font-bold stat-number">0</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12 p-6 border-4 border-on-background bg-surface-variant">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="font-audit-header-xl-mobile text-xl uppercase">Sister Compatibility</span>
+                            <span class="font-data-mono text-2xl font-bold text-secondary">99.8%</span>
+                        </div>
+                        <div class="w-full h-8 border-2 border-on-background bg-background relative overflow-hidden">
+                            <div id="compat-bar" class="absolute top-0 left-0 h-full bg-primary transition-all duration-1000" style="width: 0%;"></div>
+                        </div>
+                        <div class="text-caption-sm mt-3 text-outline-variant italic text-center">"The remaining 0.2% is currently under investigation." <span class="material-symbols-outlined text-sm align-middle">search</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Section 4: Legal Requirements -->
+        <section class="py-section-gap px-grid-margin bg-surface-container relative z-10 min-h-screen border-b-4 border-on-background flex flex-col justify-center" id="legal">
+            <div class="max-w-3xl mx-auto w-full">
+                <div class="bg-background p-8 border-4 border-on-background relative shadow-[8px_8px_0_0_rgba(28,27,27,1)]">
+                    <div class="stamp top-8 right-8 text-error border-error rotate-[10deg] text-2xl md:text-3xl">STRICTLY ENFORCED</div>
+                    
+                    <h2 class="font-audit-header-xl-mobile text-2xl md:text-audit-header-xl-mobile uppercase mb-8 border-b-2 border-on-background pb-4 flex items-center space-x-2">
+                        <span class="material-symbols-outlined text-3xl text-secondary">gavel</span>
+                        <span>03 — Legally Required Duties</span>
+                    </h2>
+
+                    <div class="space-y-4 font-receipt-text text-receipt-text text-base md:text-lg mb-10" id="legal-terms-list">
+                        <label class="flex items-center space-x-4 cursor-pointer p-2 hover:bg-surface-variant rounded">
+                            <input type="checkbox" class="term-checkbox h-6 w-6 border-2 border-on-background text-on-background bg-background cursor-pointer">
+                            <span>Listen to my unnecessary rants without judging</span>
+                        </label>
+                        <label class="flex items-center space-x-4 cursor-pointer p-2 hover:bg-surface-variant rounded">
+                            <input type="checkbox" class="term-checkbox h-6 w-6 border-2 border-on-background text-on-background bg-background cursor-pointer">
+                            <span>Bully me when I deserve it (and only when I deserve it)</span>
+                        </label>
+                        <label class="flex items-center space-x-4 cursor-pointer p-2 hover:bg-surface-variant rounded">
+                            <input type="checkbox" class="term-checkbox h-6 w-6 border-2 border-on-background text-on-background bg-background cursor-pointer">
+                            <span>Defend me fiercely when someone else tries to bully me</span>
+                        </label>
+                        <label class="flex items-center space-x-4 cursor-pointer p-2 hover:bg-surface-variant rounded">
+                            <input type="checkbox" class="term-checkbox h-6 w-6 border-2 border-on-background text-on-background bg-background cursor-pointer">
+                            <span>Send me stupid reels at ungodly hours</span>
+                        </label>
+                        <label class="flex items-center space-x-4 cursor-pointer p-2 hover:bg-surface-variant rounded">
+                            <input type="checkbox" class="term-checkbox h-6 w-6 border-2 border-on-background text-on-background bg-background cursor-pointer">
+                            <span>Keep my top secret files safe forever</span>
+                        </label>
+                        <label class="flex items-center space-x-4 cursor-pointer p-2 hover:bg-surface-variant rounded">
+                            <input type="checkbox" class="term-checkbox h-6 w-6 border-2 border-on-background text-on-background bg-background cursor-pointer">
+                            <span>Continue being my honorary sister indefinitely</span>
+                        </label>
+                        <label class="flex items-center space-x-4 cursor-pointer p-2 bg-secondary-container/20 rounded font-bold text-secondary">
+                            <input type="checkbox" class="term-checkbox h-6 w-6 border-2 border-on-background text-secondary bg-background cursor-pointer">
+                            <span class="bg-secondary text-on-secondary px-2">Never escape under any circumstances</span>
+                        </label>
+                    </div>
+
+                    <button class="w-full bg-on-background text-background text-xl md:text-2xl font-bold py-6 border-4 border-on-background brutalist-button hover:bg-primary hover:text-on-primary" id="accept-btn" onclick="acceptTermsAndConditions()">
+                        ACCEPT TERMS &amp; CONDITIONS
+                    </button>
+
+                    <div class="hidden mt-6 p-6 bg-primary-container text-on-primary-container border-4 border-on-background text-center font-bold text-xl shadow-[4px_4px_0_0_#1c1b1b]" id="success-msg">
+                        Congratulations. You are now legally stuck with me. <span class="material-symbols-outlined align-middle text-secondary">favorite</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Section 5: The Wholesome Reveal -->
+        <section class="py-section-gap px-grid-margin bg-on-background text-background relative z-10 min-h-screen border-b-4 border-on-background flex flex-col items-center justify-center text-center p-8" id="reveal">
+            <div class="max-w-4xl mx-auto space-y-6">
+                <div class="font-data-mono text-sm uppercase tracking-widest text-primary-fixed-dim border-b border-primary-fixed-dim pb-1 inline-flex items-center space-x-1">
+                    <span class="material-symbols-outlined text-sm">favorite</span>
+                    <span>04 — But actually...</span>
+                </div>
+                
+                <h3 class="font-serif text-3xl md:text-5xl leading-relaxed tracking-wide italic text-surface-bright">
+                    "Okay jokes aside..."
+                </h3>
+
+                <p class="font-sans text-xl md:text-3xl text-surface-container-high leading-relaxed font-light">
+                    You're one of those people I genuinely don't have to explain myself to.
+                </p>
+
+                <p class="font-sans text-xl md:text-3xl text-surface-container-high leading-relaxed font-light">
+                    We might not share the same parents, but somehow you still ended up being family.
+                </p>
+
+                <p class="font-serif text-2xl md:text-4xl text-secondary-fixed-dim font-bold pt-4 flex items-center justify-center space-x-2">
+                    <span>And honestly? Wouldn't have it any other way.</span>
+                    <span class="material-symbols-outlined text-secondary-fixed-dim text-3xl">favorite</span>
+                </p>
+
+                <div class="pt-6">
+                    <button onclick="openLetterModal()" class="bg-primary-container text-black font-bold text-xl py-4 px-8 border-4 border-white brutalist-button hover:bg-secondary hover:text-white flex items-center justify-center mx-auto space-x-2">
+                        <span class="material-symbols-outlined text-2xl">mark_email_read</span>
+                        <span>READ YOUR PERSONAL LETTER</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Final Section: The 3D Rakhi -->
+        <section class="py-section-gap px-grid-margin bg-background relative z-10 min-h-screen border-b-4 border-on-background flex flex-col items-center justify-center overflow-hidden" id="final">
+            <div class="relative z-20 text-center max-w-2xl bg-surface-container-lowest p-8 border-4 border-on-background brutalist-button mx-4 w-full">
+                <div class="font-data-mono text-xs uppercase tracking-widest text-primary bg-primary-container px-3 py-1 border border-on-background inline-flex items-center space-x-1 mb-4">
+                    <span class="material-symbols-outlined text-sm">celebration</span>
+                    <span>FINAL VERDICT & TRADITION</span>
+                </div>
+
+                <h2 class="font-audit-header-xl-mobile text-3xl md:text-5xl uppercase mb-4 text-primary">Happy Raksha Bandhan</h2>
+                
+                <p class="font-data-mono text-base md:text-xl mb-6">
+                    to my sister from another mother. <span class="material-symbols-outlined align-middle text-secondary">all_inclusive</span> Different mothers. Same chaos. Deal?
+                </p>
+
+                <!-- REAL 3D THREE.JS RAKHI CANVAS -->
+                <div class="relative w-full max-w-sm aspect-square mx-auto my-4 flex items-center justify-center border-2 border-on-background bg-surface-container-low rounded-full">
+                    <canvas id="rakhi-3d-canvas" class="w-full h-full cursor-grab active:cursor-grabbing rounded-full"></canvas>
+                    <div class="absolute bottom-2 font-data-mono text-[10px] text-outline bg-background/90 px-3 py-0.5 rounded border border-on-background pointer-events-none flex items-center space-x-1">
+                        <span class="material-symbols-outlined text-xs">auto_awesome</span>
+                        <span>Drag 3D Rakhi / Click to tie</span>
+                    </div>
+                </div>
+
+                <button class="bg-secondary text-on-secondary text-2xl md:text-3xl font-bold py-4 px-12 border-4 border-on-background brutalist-button hover:bg-on-background hover:text-background w-full mt-4 flex items-center justify-center space-x-2" id="deal-btn" onclick="triggerRakhiDeal()">
+                    <span>DEAL</span>
+                    <span class="material-symbols-outlined text-3xl">handshake</span>
+                </button>
+
+                <div class="hidden mt-8 text-xl md:text-2xl font-bold text-error bg-error-container p-6 border-4 border-on-background transform rotate-2 shadow-[4px_4px_0_0_#1c1b1b]" id="punchline">
+                    <div class="flex items-center justify-center space-x-2">
+                        <span>TOO LATE. YOU'RE STUCK WITH ME.</span>
+                        <span class="material-symbols-outlined text-3xl text-secondary">sentiment_very_satisfied</span>
+                    </div>
+                    <div class="text-xs font-data-mono mt-2 text-on-background font-normal">Official Sister Certificate™ Seal Confirmed. No Refunds.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Mobile Nav -->
+        <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 lg:hidden bg-surface-container-lowest border-t-4 border-on-background no-print">
+            <a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container border-2 border-on-background p-1 active:scale-90 duration-75" href="#evidence">
+                <span class="material-symbols-outlined">camera</span>
+                <span class="text-caption-sm font-caption-sm">Evidence</span>
+            </a>
+            <a class="flex flex-col items-center justify-center text-on-surface-variant p-1 hover:bg-secondary-container active:scale-90 duration-75" href="#statistics">
+                <span class="material-symbols-outlined">analytics</span>
+                <span class="text-caption-sm font-caption-sm">Stats</span>
+            </a>
+            <a class="flex flex-col items-center justify-center text-on-surface-variant p-1 hover:bg-secondary-container active:scale-90 duration-75" href="#legal">
+                <span class="material-symbols-outlined">policy</span>
+                <span class="text-caption-sm font-caption-sm">Legal</span>
+            </a>
+            <a class="flex flex-col items-center justify-center text-on-surface-variant p-1 hover:bg-secondary-container active:scale-90 duration-75" href="#final">
+                <span class="material-symbols-outlined">stars</span>
+                <span class="text-caption-sm font-caption-sm">Final</span>
+            </a>
+        </nav>
+    </main>
+
+
+    <!-- HEARTFELT TYPEWRITER LETTER MODAL -->
+    <div id="letter-modal" class="fixed inset-0 z-[30000] bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="max-w-2xl w-full bg-[#FAF6E8] text-[#1c1b1b] p-6 md:p-8 border-4 border-[#1c1b1b] shadow-[8px_8px_0_0_#ffd700] relative font-receipt-text my-8">
+            <button onclick="closeLetterModal()" class="absolute top-4 right-4 bg-[#1c1b1b] text-white w-8 h-8 rounded-full font-data-mono text-sm no-print">✕</button>
+            
+            <div class="border-2 border-dashed border-[#1c1b1b] p-6 bg-white relative overflow-hidden">
+                <!-- Top Letter Header -->
+                <div class="flex justify-between items-center border-b-2 border-[#1c1b1b] pb-3 mb-4">
+                    <div class="font-audit-header-xl text-xl font-bold text-[#b7102a] uppercase" id="title-letter">FOR SISTER</div>
+                    <div class="text-xs font-data-mono bg-[#ffd700] px-2 py-0.5 border border-[#1c1b1b] font-bold">RAKSHA BANDHAN LETTER</div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 items-start">
+                    <!-- Left GIF & Heart Animation -->
+                    <div class="flex-shrink-0 flex flex-col items-center justify-center space-y-2 mx-auto sm:mx-0">
+                        <img src="img/mewmew.gif" class="w-20 h-20 object-contain border border-[#1c1b1b] rounded bg-[#FAF6E8]" alt="Mewmew">
+                        <div class="text-[10px] font-data-mono text-gray-500 uppercase">WITH LOVE ❤️</div>
+                    </div>
+
+                    <!-- Right Typewriter Body -->
+                    <div class="flex-1">
+                        <p id="body-letter" class="text-sm md:text-base leading-relaxed text-[#1c1b1b] min-h-[140px] whitespace-pre-wrap font-receipt-text">
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-6 border-t-2 border-[#1c1b1b] pt-4 flex justify-between items-center text-xs font-data-mono">
+                    <div class="text-gray-600">SENDER: <strong id="letter-sender-name" class="text-black uppercase">YOUR BROTHER</strong></div>
+                    <button onclick="closeLetterModal()" class="bg-[#b7102a] text-white px-4 py-2 font-bold uppercase brutalist-button text-xs">
+                        CLOSE LETTER
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- CERTIFICATE PRINT / DOWNLOAD MODAL -->
+    <div id="certificate-modal" class="fixed inset-0 z-[25000] bg-black/80 backdrop-blur-md hidden flex flex-col items-center justify-center p-4 overflow-y-auto">
+        <div class="max-w-2xl w-full bg-[#FAF6E8] text-[#1c1b1b] p-8 md:p-10 border-8 border-[#705d00] relative shadow-2xl font-serif my-8">
+            <button onclick="closeCertificate()" class="absolute top-4 right-4 bg-black text-white w-8 h-8 rounded-full font-data-mono text-sm no-print">✕</button>
+            
+            <div class="text-center border-4 border-double border-[#705d00] p-6 bg-white">
+                <div class="font-data-mono text-xs font-bold tracking-widest text-[#705d00] uppercase">OFFICIAL REGISTRY OF HONORARY SISTERHOOD</div>
+                <h1 class="font-audit-header-xl text-3xl md:text-4xl font-black text-[#1c1b1b] uppercase tracking-wider mt-2">SISTER CERTIFICATE™</h1>
+                <div class="w-24 h-1 bg-[#705d00] mx-auto my-3"></div>
+                
+                <p class="font-serif italic text-sm md:text-base text-gray-700">This official document certifies that</p>
+                <div class="font-audit-header-xl text-3xl md:text-4xl font-extrabold text-[#b7102a] uppercase my-2 underline decoration-[#ffd700]" id="cert-sister-name">SISTER</div>
+                <p class="font-serif text-sm md:text-base text-gray-800 max-w-lg mx-auto leading-relaxed">
+                    has officially passed all audit protocols and is legally declared a <br>
+                    <strong class="text-black uppercase">"Sister From Another Mother™"</strong> <br>
+                    entitled to lifetime bullying rights, late night rants, and 99.8% compatibility.
+                </p>
+
+                <div class="mt-8 flex justify-between items-end border-t-2 border-[#705d00]/50 pt-6 font-data-mono text-xs text-left">
+                    <div>
+                        <div class="text-gray-500">ISSUED BY:</div>
+                        <div class="font-bold text-sm text-black uppercase" id="cert-sender-name">YOUR BROTHER</div>
+                        <div class="text-[10px] text-gray-400">SIGNATURE: ✔ VERIFIED</div>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="w-16 h-16 border-4 border-double border-[#b7102a] rounded-full flex items-center justify-center font-audit-header-xl font-extrabold text-[10px] text-[#b7102a] transform -rotate-12 uppercase leading-none shadow-sm">
+                            OFFICIAL<br>SEAL<br>2026
+                        </div>
+                    </div>
+
+                    <div class="text-right">
+                        <div class="text-gray-500">CERTIFICATE NO:</div>
+                        <div class="font-bold text-sm text-black">SIS-992-APPROVED</div>
+                        <div class="text-[10px] text-gray-400">NO REFUNDS / FOREVER STUCK</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 flex space-x-4 no-print">
+                <button onclick="window.print()" class="flex-1 bg-primary-container text-black font-bold py-3 text-sm font-syne uppercase brutalist-button border-2 border-black flex items-center justify-center space-x-2">
+                    <span class="material-symbols-outlined text-sm">print</span>
+                    <span>PRINT / SAVE AS PDF</span>
+                </button>
+                <button onclick="closeCertificate()" class="bg-gray-800 text-white px-6 py-3 text-sm font-syne uppercase rounded">
+                    CLOSE
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- PERSONALIZATION & PHOTO MANAGER MODAL -->
+    <div id="personalizer-modal" class="fixed inset-0 z-[20000] bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-surface-container-lowest border-4 border-on-background max-w-xl w-full p-6 md:p-8 relative shadow-[8px_8px_0_0_#1c1b1b] my-8 max-h-[90vh] overflow-y-auto">
+            <button onclick="closePersonalizer()" class="absolute top-4 right-4 text-on-background hover:text-secondary font-data-mono text-xl font-bold">✕</button>
+            
+            <h3 class="font-audit-header-xl text-2xl font-bold text-primary uppercase mb-1 flex items-center space-x-2">
+                <span class="material-symbols-outlined">settings</span>
+                <span>Personalize &amp; Save Audit</span>
+            </h3>
+            <p class="font-data-mono text-xs text-outline mb-6">Customize names, exhibit photos, captions, and letter text. Everything stays saved!</p>
+
+            <div class="space-y-6 font-data-mono text-sm">
+                <!-- Names -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-on-background font-bold mb-1">Sister's Name:</label>
+                        <input type="text" id="input-sister-name" value="Sister" class="w-full bg-background border-2 border-on-background p-3 text-on-background focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-on-background font-bold mb-1">Your Name (Brother / Bestie):</label>
+                        <input type="text" id="input-sender-name" value="Your Brother" class="w-full bg-background border-2 border-on-background p-3 text-on-background focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Custom Letter Text -->
+                <div class="border-t-2 border-on-background pt-4">
+                    <label class="block text-on-background font-bold mb-1">Custom Letter Message:</label>
+                    <textarea id="input-custom-letter" rows="3" class="w-full bg-background border-2 border-on-background p-3 text-on-background focus:outline-none text-xs" placeholder="Write a personal letter message here..."></textarea>
+                </div>
+
+                <!-- Exhibit Photos & Captions -->
+                <div class="border-t-2 border-on-background pt-4">
+                    <h4 class="font-bold text-base mb-3 flex items-center space-x-2">
+                        <span class="material-symbols-outlined text-primary">photo_camera</span>
+                        <span>Exhibit Photos &amp; Captions</span>
+                    </h4>
+
+                    <div class="space-y-4">
+                        <!-- Exhibit A -->
+                        <div class="flex items-center space-x-3 bg-surface-container p-3 border-2 border-on-background">
+                            <img id="modal-prev-img-exhibit-a" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%23b7102a'/></svg>" class="w-16 h-16 object-cover border border-on-background bg-black flex-shrink-0">
+                            <div class="flex-1 space-y-1">
+                                <div class="font-bold text-xs">Exhibit A Caption:</div>
+                                <input type="text" id="input-caption-a" value="No explanation needed." class="w-full text-xs p-1 bg-background border border-on-background">
+                                <label class="inline-block bg-primary text-on-primary text-[10px] font-bold px-2 py-1 cursor-pointer brutalist-button mt-1">
+                                    📤 Upload Exhibit A Photo
+                                    <input type="file" accept="image/*" class="hidden" onchange="uploadExhibitPhoto(event, 'img-exhibit-a')">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Exhibit B -->
+                        <div class="flex items-center space-x-3 bg-surface-container p-3 border-2 border-on-background">
+                            <img id="modal-prev-img-exhibit-b" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='100%' height='100%' fill='%23ffd700'/></svg>" class="w-16 h-16 object-cover border border-on-background bg-black flex-shrink-0">
+                            <div class="flex-1 space-y-1">
+                                <div class="font-bold text-xs">Exhibit B Caption:</div>
+                                <input type="text" id="input-caption-b" value="We thought this was a good idea." class="w-full text-xs p-1 bg-background border border-on-background">
+                                <label class="inline-block bg-primary text-on-primary text-[10px] font-bold px-2 py-1 cursor-pointer brutalist-button mt-1">
+                                    📤 Upload Exhibit B Photo
+                                    <input type="file" accept="image/*" class="hidden" onchange="uploadExhibitPhoto(event, 'img-exhibit-b')">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Exhibit C -->
+                        <div class="flex items-center space-x-3 bg-surface-container p-3 border-2 border-on-background">
+                            <img id="modal-prev-img-exhibit-c" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%231c1b1b'/></svg>" class="w-16 h-16 object-cover border border-on-background bg-black flex-shrink-0">
+                            <div class="flex-1 space-y-1">
+                                <div class="font-bold text-xs">Exhibit C Caption:</div>
+                                <input type="text" id="input-caption-c" value="Character development was attempted." class="w-full text-xs p-1 bg-background border border-on-background">
+                                <label class="inline-block bg-primary text-on-primary text-[10px] font-bold px-2 py-1 cursor-pointer brutalist-button mt-1">
+                                    📤 Upload Exhibit C Photo
+                                    <input type="file" accept="image/*" class="hidden" onchange="uploadExhibitPhoto(event, 'img-exhibit-c')">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                <button onclick="savePersonalization()" class="flex-1 bg-primary-container text-on-primary-container font-bold border-2 border-on-background py-3 font-syne uppercase brutalist-button flex items-center justify-center space-x-2">
+                    <span class="material-symbols-outlined">save</span>
+                    <span>SAVE &amp; PERSIST</span>
+                </button>
+                <button onclick="copyShareableLink()" class="bg-secondary text-on-secondary font-bold border-2 border-on-background py-3 px-4 font-syne uppercase brutalist-button flex items-center justify-center space-x-2">
+                    <span class="material-symbols-outlined">link</span>
+                    <span>COPY SHARE LINK</span>
+                </button>
+            </div>
+
+            <div id="copy-toast" class="hidden mt-3 p-2 bg-green-200 border border-green-800 text-green-900 text-xs font-bold text-center">
+                ✔ Link copied to clipboard!
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT LOGIC & THREE.JS 3D RAKHI -->
+    <script>
+        // GLOBAL STATE
+        let sfxEnabled = true;
+        let sisterName = "Sister";
+        let senderName = "Your Favorite Brother";
+        let customLetterText = "";
+        let audioCtx = null;
+
+        // INDEXEDDB PERSISTENCE ENGINE FOR HIGH RES PHOTOS & CONFIG
+        const DB_NAME = 'SisterAuditDB';
+        const STORE_NAME = 'personalized_store';
+
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, 1);
+                request.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains(STORE_NAME)) {
+                        db.createObjectStore(STORE_NAME);
+                    }
+                };
+                request.onsuccess = (e) => resolve(e.target.result);
+                request.onerror = (e) => reject(e.target.error);
+            });
+        }
+
+        async function savePersistentData(key, value) {
+            try {
+                const db = await openDB();
+                const tx = db.transaction(STORE_NAME, 'readwrite');
+                tx.objectStore(STORE_NAME).put(value, key);
+                if (typeof value === 'string' && value.length < 50000) {
+                    localStorage.setItem(key, value);
+                }
+            } catch(e) {
+                try { localStorage.setItem(key, value); } catch(err){}
+            }
+        }
+
+        async function getPersistentData(key) {
+            try {
+                const db = await openDB();
+                const tx = db.transaction(STORE_NAME, 'readonly');
+                const req = tx.objectStore(STORE_NAME).get(key);
+                return new Promise((resolve) => {
+                    req.onsuccess = () => {
+                        if (req.result !== undefined) resolve(req.result);
+                        else resolve(localStorage.getItem(key));
+                    };
+                    req.onerror = () => resolve(localStorage.getItem(key));
+                });
+            } catch(e) {
+                return localStorage.getItem(key);
+            }
+        }
+
+        // Dynamic Nav Highlighting Logic
+        function setActiveNav(sectionId) {
+            const navItems = document.querySelectorAll('#sidebar-nav-menu .nav-item');
+            navItems.forEach(item => {
+                if (item.getAttribute('data-section') === sectionId) {
+                    item.className = "nav-item flex items-center space-x-3 bg-primary text-on-primary font-bold border-2 border-on-background m-1 p-2 transition-all";
+                } else {
+                    item.className = "nav-item flex items-center space-x-3 text-on-surface-variant p-2 hover:bg-surface-variant border-2 border-transparent transition-all";
+                }
+            });
+        }
+
+        // Scroll Spy with IntersectionObserver
+        window.addEventListener('DOMContentLoaded', () => {
+            parseNameFromURL();
+            initBackgroundParticles();
+
+            const sections = document.querySelectorAll('main section[id]');
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.35 };
+            
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setActiveNav(entry.target.id);
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(sec => sectionObserver.observe(sec));
+        });
+
+        // Ambient Particles Initializer
+        function initBackgroundParticles() {
+            const container = document.getElementById('bg-particles');
+            if (!container) return;
+            container.innerHTML = '';
+            const count = window.innerWidth < 600 ? 15 : 30;
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                const size = Math.random() * 6 + 3;
+                particle.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background-color: ${i % 2 === 0 ? '#ffd700' : '#b7102a'};
+                    border-radius: 50%;
+                    left: ${Math.random() * 100}vw;
+                    top: ${Math.random() * 100}vh;
+                    opacity: ${Math.random() * 0.4 + 0.2};
+                    pointer-events: none;
+                    animation: floatParticle ${(Math.random() * 12 + 8)}s infinite linear;
+                    animation-delay: -${Math.random() * 10}s;
+                `;
+                container.appendChild(particle);
+            }
+        }
+
+        // TYPEWRITER LETTER MODAL ENGINE
+        let letterTimers = [];
+        function clearLetterTimers() {
+            letterTimers.forEach(t => clearInterval(t));
+            letterTimers.forEach(t => clearTimeout(t));
+            letterTimers = [];
+        }
+
+        function typeIntoElement(el, text, speed, done) {
+            let i = 0;
+            el.textContent = "";
+            const iv = setInterval(() => {
+                if (i < text.length) {
+                    el.textContent += text.charAt(i++);
+                } else {
+                    clearInterval(iv);
+                    if (done) done();
+                }
+            }, speed);
+            letterTimers.push(iv);
+        }
+
+        async function openLetterModal() {
+            playStampSFX();
+            const box = document.getElementById("letter-modal");
+            const title = document.getElementById("title-letter");
+            const body = document.getElementById("body-letter");
+
+            box.classList.remove("hidden");
+
+            clearLetterTimers();
+            const letterTitleText = `FOR ${sisterName.toUpperCase()}`;
+            const defaultBodyText = `Happy Raksha Bandhan! Some bonds are not tied by blood, but by moments, care, and quiet understanding. You've always been a calm presence — someone who never needed to speak much, yet made things feel better just by being there. On this special day, I just want to thank you for being part of this journey. May your life always be filled with peace, love, and silent strength. No matter where life takes us, this thread of connection will always stay.`;
+            
+            const savedCustomLetter = await getPersistentData(`letter_${sisterName.toLowerCase()}`);
+            const letterBodyText = savedCustomLetter || customLetterText || defaultBodyText;
+
+            document.getElementById('letter-sender-name').innerText = senderName.toUpperCase();
+
+            title.textContent = "";
+            body.textContent = "";
+
+            typeIntoElement(title, letterTitleText, 60, () => {
+                typeIntoElement(body, letterBodyText, 22);
+            });
+
+            confetti({
+                particleCount: 80,
+                spread: 70,
+                origin: { y: 0.5 }
+            });
+        }
+
+        function closeLetterModal() {
+            playClickSFX();
+            clearLetterTimers();
+            const box = document.getElementById("letter-modal");
+            box.classList.add("hidden");
+        }
+
+        // URL HASH & PERSISTENCE LOAD
+        async function parseNameFromURL() {
+            let name = "";
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('name')) {
+                name = urlParams.get('name');
+            } else {
+                const hash = window.location.hash.replace(/^#/, '');
+                if (hash) {
+                    if (hash.startsWith('name=')) {
+                        name = decodeURIComponent(hash.replace('name=', ''));
+                    } else if (!['opening', 'evidence', 'statistics', 'legal', 'reveal', 'final'].includes(hash.toLowerCase())) {
+                        name = decodeURIComponent(hash);
+                    }
+                }
+            }
+
+            if (!name) {
+                name = await getPersistentData('sister_name') || "Sister";
+            }
+
+            if (name) {
+                await applySisterName(name, false);
+            }
+        }
+
+        async function applySisterName(name, updateURL = false) {
+            sisterName = name;
+            senderName = await getPersistentData('sender_name') || "Your Favorite Brother";
+
+            document.getElementById('nav-sister-name').innerText = sisterName.toUpperCase();
+            document.getElementById('opening-sister-name').innerText = sisterName.toUpperCase() + " (MY SISTER FROM ANOTHER MOTHER™)";
+            document.getElementById('input-sister-name').value = sisterName;
+            document.getElementById('input-sender-name').value = senderName;
+
+            const savedLetter = await getPersistentData(`letter_${sisterName.toLowerCase()}`);
+            if (savedLetter) {
+                document.getElementById('input-custom-letter').value = savedLetter;
+                customLetterText = savedLetter;
+            }
+
+            await loadSavedPhotosAndCaptions(sisterName);
+
+            if (updateURL) {
+                const formatted = encodeURIComponent(sisterName.toLowerCase());
+                if (history.replaceState) {
+                    history.replaceState(null, null, '#' + formatted);
+                } else {
+                    window.location.hash = formatted;
+                }
+            }
+        }
+
+        async function loadSavedPhotosAndCaptions(name) {
+            const nameKey = (name || 'default').toLowerCase();
+            const exhibits = ['img-exhibit-a', 'img-exhibit-b', 'img-exhibit-c'];
+
+            for (const imgId of exhibits) {
+                let savedPhoto = await getPersistentData(`photo_${imgId}_${nameKey}`);
+                if (!savedPhoto) {
+                    savedPhoto = await getPersistentData(`photo_${imgId}_default`);
+                }
+                if (savedPhoto) {
+                    document.getElementById(imgId).src = savedPhoto;
+                    const modalPrev = document.getElementById(`modal-prev-${imgId}`);
+                    if (modalPrev) modalPrev.src = savedPhoto;
+                }
+            }
+
+            const capA = await getPersistentData(`caption_a_${nameKey}`) || await getPersistentData(`caption_a_default`);
+            if (capA) {
+                document.getElementById('caption-exhibit-a').innerText = capA;
+                document.getElementById('input-caption-a').value = capA;
+            }
+
+            const capB = await getPersistentData(`caption_b_${nameKey}`) || await getPersistentData(`caption_b_default`);
+            if (capB) {
+                document.getElementById('caption-exhibit-b').innerText = capB;
+                document.getElementById('input-caption-b').value = capB;
+            }
+
+            const capC = await getPersistentData(`caption_c_${nameKey}`) || await getPersistentData(`caption_c_default`);
+            if (capC) {
+                document.getElementById('caption-exhibit-c').innerText = capC;
+                document.getElementById('input-caption-c').value = capC;
+            }
+        }
+
+        async function savePersonalization() {
+            playStampSFX();
+            const inputVal = document.getElementById('input-sister-name').value.trim();
+            const senderVal = document.getElementById('input-sender-name').value.trim();
+            const customLetterVal = document.getElementById('input-custom-letter').value.trim();
+            
+            sisterName = inputVal || "Sister";
+            senderName = senderVal || "Your Brother";
+            customLetterText = customLetterVal;
+
+            const capA = document.getElementById('input-caption-a').value.trim();
+            const capB = document.getElementById('input-caption-b').value.trim();
+            const capC = document.getElementById('input-caption-c').value.trim();
+
+            if (capA) document.getElementById('caption-exhibit-a').innerText = capA;
+            if (capB) document.getElementById('caption-exhibit-b').innerText = capB;
+            if (capC) document.getElementById('caption-exhibit-c').innerText = capC;
+
+            const nameKey = sisterName.toLowerCase();
+            await savePersistentData('sister_name', sisterName);
+            await savePersistentData('sender_name', senderName);
+            await savePersistentData(`letter_${nameKey}`, customLetterText);
+            await savePersistentData(`caption_a_${nameKey}`, capA);
+            await savePersistentData(`caption_b_${nameKey}`, capB);
+            await savePersistentData(`caption_c_${nameKey}`, capC);
+            await savePersistentData(`caption_a_default`, capA);
+            await savePersistentData(`caption_b_default`, capB);
+            await savePersistentData(`caption_c_default`, capC);
+
+            await applySisterName(sisterName, true);
+            closePersonalizer();
+        }
+
+        function copyShareableLink() {
+            playClickSFX();
+            const formatted = encodeURIComponent(sisterName.toLowerCase());
+            const shareUrl = window.location.origin + window.location.pathname + '#' + formatted;
+            
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                const toast = document.getElementById('copy-toast');
+                toast.innerText = `✔ Link copied to clipboard! (${shareUrl})`;
+                toast.classList.remove('hidden');
+                setTimeout(() => toast.classList.add('hidden'), 4000);
+            });
+        }
+
+        // PHOTO UPLOADER WITH AUTOMATIC COMPRESSION & INDEXEDDB SAVE
+        function uploadExhibitPhoto(event, imgId) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const maxDim = 800;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > maxDim) {
+                            height = Math.round((height * maxDim) / width);
+                            width = maxDim;
+                        }
+                    } else {
+                        if (height > maxDim) {
+                            width = Math.round((width * maxDim) / height);
+                            height = maxDim;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+                    document.getElementById(imgId).src = compressedDataUrl;
+                    const modalPrev = document.getElementById(`modal-prev-${imgId}`);
+                    if (modalPrev) modalPrev.src = compressedDataUrl;
+
+                    playStampSFX();
+
+                    const nameKey = (sisterName || 'default').toLowerCase();
+                    savePersistentData(`photo_${imgId}_${nameKey}`, compressedDataUrl);
+                    savePersistentData(`photo_${imgId}_default`, compressedDataUrl);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // WEB AUDIO API SOUND SYNTHESIZER
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playClickSFX() {
+            if (!sfxEnabled) return;
+            initAudio();
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.08);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.08);
+            } catch(e){}
+        }
+
+        function playStampSFX() {
+            if (!sfxEnabled) return;
+            initAudio();
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.2);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.2);
+            } catch(e){}
+        }
+
+        function toggleAudio() {
+            sfxEnabled = !sfxEnabled;
+            document.getElementById('sound-state').innerText = sfxEnabled ? "SFX: ON" : "SFX: OFF";
+            if (sfxEnabled) playClickSFX();
+        }
+
+        // 1. GLITCH LOADING SEQUENCE
+        const terminalLogs = [
+            "> INITIALIZING SISTER_AUDIT_PROTOCOL...",
+            "> CONNECTING TO BIOMETRIC SENSOR...",
+            "> SCANNING CHAOS METRICS & MEMORIES...",
+            "> ANALYSIS: 99.8% SISTER COMPATIBILITY DETECTED!",
+            "> WARNING: NORMAL 'HAPPY RAKHI' INSUFFICIENT.",
+            "> PREPARING OFFICIAL CERTIFICATE...",
+            "> SYSTEM READY. LAUNCHING EXPERIENCES..."
+        ];
+
+        let logIndex = 0;
+        let progress = 0;
+
+        function runLoader() {
+            const bar = document.getElementById('loader-bar');
+            const percent = document.getElementById('loader-percent');
+            const logsContainer = document.getElementById('terminal-logs');
+
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 8) + 4;
+                if (progress > 100) progress = 100;
+                
+                bar.style.width = progress + '%';
+                percent.innerText = progress + '%';
+
+                if (progress >= (logIndex + 1) * 14 && logIndex < terminalLogs.length) {
+                    const logLine = document.createElement('div');
+                    logLine.innerText = terminalLogs[logIndex];
+                    logsContainer.appendChild(logLine);
+                    logsContainer.scrollTop = logsContainer.scrollHeight;
+                    logIndex++;
+                    playClickSFX();
+                }
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(finishLoading, 400);
+                }
+            }, 120);
+        }
+
+        function finishLoading() {
+            const screen = document.getElementById('loading-screen');
+            screen.style.opacity = '0';
+            setTimeout(() => {
+                screen.style.display = 'none';
+            }, 700);
+        }
+
+        window.addEventListener('load', () => {
+            runLoader();
+            initThreeDCanvas();
+        });
+
+        // 3. STATS COUNT-UP ANIMATION & COMPATIBILITY BAR
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.count-up');
+                    counters.forEach(counter => {
+                        const target = +counter.getAttribute('data-target');
+                        let count = 0;
+                        const inc = Math.ceil(target / 40);
+                        const updateCount = () => {
+                            count += inc;
+                            if (count < target) {
+                                counter.innerText = count.toLocaleString();
+                                setTimeout(updateCount, 30);
+                            } else {
+                                counter.innerText = target.toLocaleString();
+                            }
+                        };
+                        updateCount();
+                    });
+
+                    const compatBar = document.getElementById('compat-bar');
+                    if (compatBar) {
+                        compatBar.style.width = '99.8%';
+                    }
+                }
+            });
+        }, { threshold: 0.3 });
+
+        const statsSection = document.getElementById('statistics');
+        if (statsSection) observer.observe(statsSection);
+
+        // 4. TERMS ACCEPTANCE
+        function acceptTermsAndConditions() {
+            playStampSFX();
+            const checkboxes = document.querySelectorAll('.term-checkbox');
+            checkboxes.forEach(cb => cb.checked = true);
+
+            const msg = document.getElementById('success-msg');
+            msg.classList.remove('hidden');
+
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        // 5. CERTIFICATE & PERSONALIZATION MODAL LOGIC
+        function openCertificate() {
+            playClickSFX();
+            document.getElementById('cert-sister-name').innerText = sisterName;
+            document.getElementById('cert-sender-name').innerText = senderName;
+            document.getElementById('certificate-modal').classList.remove('hidden');
+        }
+
+        function closeCertificate() {
+            playClickSFX();
+            document.getElementById('certificate-modal').classList.add('hidden');
+        }
+
+        function openPersonalizer() {
+            playClickSFX();
+            document.getElementById('personalizer-modal').classList.remove('hidden');
+        }
+
+        function closePersonalizer() {
+            playClickSFX();
+            document.getElementById('personalizer-modal').classList.add('hidden');
+        }
+
+        // 6. RAKHI DEAL
+        function triggerRakhiDeal() {
+            playStampSFX();
+            
+            document.getElementById('punchline').classList.remove('hidden');
+
+            confetti({
+                particleCount: 150,
+                spread: 100,
+                origin: { y: 0.5 },
+                colors: ['#ffd700', '#b7102a', '#ffffff', '#705d00']
+            });
+        }
+
+        // ========================================== -->
+        // 7. THREE.JS REAL 3D RAKHI MODEL CREATION
+        // ========================================== -->
+        function createOmCanvasTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+
+            // Cream background
+            ctx.fillStyle = '#F5F0E6';
+            ctx.beginPath();
+            ctx.arc(256, 256, 250, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Red outer ring
+            ctx.strokeStyle = '#B7102A';
+            ctx.lineWidth = 20;
+            ctx.beginPath();
+            ctx.arc(256, 256, 235, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Gold inner accent ring
+            ctx.strokeStyle = '#C5A059';
+            ctx.lineWidth = 10;
+            ctx.beginPath();
+            ctx.arc(256, 256, 215, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // White/Gold notches around red ring
+            for (let i = 0; i < 24; i++) {
+                const angle = (i / 24) * Math.PI * 2;
+                const x = 256 + Math.cos(angle) * 235;
+                const y = 256 + Math.sin(angle) * 235;
+                ctx.fillStyle = i % 2 === 0 ? '#FFFFFF' : '#FFD700';
+                ctx.beginPath();
+                ctx.arc(x, y, 7, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Gold Om (ॐ) symbol in exact center
+            ctx.fillStyle = '#C59B27';
+            ctx.font = 'bold 220px serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('ॐ', 256, 268);
+
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.needsUpdate = true;
+            return texture;
+        }
+
+        function initThreeDCanvas() {
+            const canvas = document.getElementById('rakhi-3d-canvas');
+            if (!canvas) return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+            camera.position.z = 6;
+
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(350, 350);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.enableZoom = false;
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.95);
+            scene.add(ambientLight);
+
+            const pointLight = new THREE.PointLight(0xffd700, 2.5, 50);
+            pointLight.position.set(2, 4, 5);
+            scene.add(pointLight);
+
+            const redLight = new THREE.PointLight(0xb7102a, 2, 50);
+            redLight.position.set(-2, -3, 3);
+            scene.add(redLight);
+
+            const rakhiGroup = new THREE.Group();
+            scene.add(rakhiGroup);
+
+            const goldMaterial = new THREE.MeshStandardMaterial({
+                color: 0xd4af37,
+                metalness: 0.85,
+                roughness: 0.2,
+                emissive: 0x221a00
+            });
+
+            const silverMaterial = new THREE.MeshStandardMaterial({
+                color: 0xd0d0d0,
+                metalness: 0.95,
+                roughness: 0.1
+            });
+
+            const redMaterial = new THREE.MeshStandardMaterial({
+                color: 0xb7102a,
+                metalness: 0.3,
+                roughness: 0.3,
+                emissive: 0x33000a
+            });
+
+            const creamMaterial = new THREE.MeshStandardMaterial({
+                color: 0xf5f0e6,
+                metalness: 0.1,
+                roughness: 0.3
+            });
+
+            const silkRedMaterial = new THREE.MeshStandardMaterial({
+                color: 0xd90429,
+                roughness: 0.5,
+                metalness: 0.1
+            });
+
+            // 1. Central Om Emblem Disc
+            const omTexture = createOmCanvasTexture();
+            const omMaterial = new THREE.MeshStandardMaterial({
+                map: omTexture,
+                metalness: 0.15,
+                roughness: 0.3
+            });
+
+            const centerGeo = new THREE.CylinderGeometry(0.85, 0.85, 0.08, 64);
+            const centerMaterials = [creamMaterial, omMaterial, creamMaterial];
+            const centerMesh = new THREE.Mesh(centerGeo, centerMaterials);
+            centerMesh.rotation.x = Math.PI / 2;
+            rakhiGroup.add(centerMesh);
+
+            // Gold Ring border wrapping the inner Om disc
+            const centerRing = new THREE.Mesh(new THREE.TorusGeometry(0.86, 0.04, 16, 64), goldMaterial);
+            centerRing.position.z = 0.04;
+            rakhiGroup.add(centerRing);
+
+            // 2. Outer Red Decorative Ring
+            const redRingGeo = new THREE.CylinderGeometry(1.05, 1.05, 0.06, 64);
+            const redRingMesh = new THREE.Mesh(redRingGeo, redMaterial);
+            redRingMesh.rotation.x = Math.PI / 2;
+            redRingMesh.position.z = -0.01;
+            rakhiGroup.add(redRingMesh);
+
+            const redRingGoldBorder = new THREE.Mesh(new THREE.TorusGeometry(1.06, 0.03, 16, 64), goldMaterial);
+            rakhiGroup.add(redRingGoldBorder);
+
+            // 3. 10 Cream Oval Flower Petals with Gold Rims (Exact layout from Image 1)
+            const numPetals = 10;
+            for (let i = 0; i < numPetals; i++) {
+                const angle = (i / numPetals) * Math.PI * 2;
+                const petalGroup = new THREE.Group();
+
+                // Cream Oval Petal Body
+                const petalMesh = new THREE.Mesh(new THREE.SphereGeometry(0.24, 24, 24), creamMaterial);
+                petalMesh.scale.set(0.6, 1.3, 0.35);
+                petalGroup.add(petalMesh);
+
+                // Gold Outer Rim around Petal
+                const petalRim = new THREE.Mesh(new THREE.TorusGeometry(0.25, 0.03, 16, 32), goldMaterial);
+                petalRim.scale.set(0.65, 1.35, 1);
+                petalRim.position.z = 0.01;
+                petalGroup.add(petalRim);
+
+                // Small Gold Connector Ring
+                const loopMesh = new THREE.Mesh(new THREE.TorusGeometry(0.08, 0.02, 12, 24), goldMaterial);
+                loopMesh.position.y = -0.32;
+                petalGroup.add(loopMesh);
+
+                // Position Petal radially around central medallion
+                petalGroup.position.x = Math.cos(angle) * 1.38;
+                petalGroup.position.y = Math.sin(angle) * 1.38;
+                petalGroup.position.z = 0;
+                petalGroup.rotation.z = angle - Math.PI / 2;
+
+                rakhiGroup.add(petalGroup);
+            }
+
+            // 4. Wavy Red Silk Threads with Gold and Silver Beads
+            const curveLeft = new THREE.CatmullRomCurve3([
+                new THREE.Vector3(-1.2, 0, 0),
+                new THREE.Vector3(-2.0, 0.15, -0.2),
+                new THREE.Vector3(-3.0, -0.15, -0.4),
+                new THREE.Vector3(-4.2, 0.2, -0.7)
+            ]);
+            const threadLeft = new THREE.Mesh(new THREE.TubeGeometry(curveLeft, 30, 0.06, 12, false), silkRedMaterial);
+            rakhiGroup.add(threadLeft);
+
+            const curveRight = new THREE.CatmullRomCurve3([
+                new THREE.Vector3(1.2, 0, 0),
+                new THREE.Vector3(2.0, -0.15, -0.2),
+                new THREE.Vector3(3.0, 0.15, -0.4),
+                new THREE.Vector3(4.2, -0.2, -0.7)
+            ]);
+            const threadRight = new THREE.Mesh(new THREE.TubeGeometry(curveRight, 30, 0.06, 12, false), silkRedMaterial);
+            rakhiGroup.add(threadRight);
+
+            // Add Spherical Beads along Left & Right Threads (matching Image 1!)
+            const beadConfigs = [
+                { t: 0.3, type: 'gold', scale: 0.12 },
+                { t: 0.5, type: 'silver', scale: 0.12 },
+                { t: 0.7, type: 'gold', scale: 0.12 },
+                { t: 0.98, type: 'goldTip', scale: 0.16 }
+            ];
+
+            beadConfigs.forEach(bp => {
+                const beadMat = bp.type === 'silver' ? silverMaterial : goldMaterial;
+                
+                const posL = curveLeft.getPoint(bp.t);
+                const beadL = new THREE.Mesh(new THREE.SphereGeometry(bp.scale, 16, 16), beadMat);
+                beadL.position.copy(posL);
+                rakhiGroup.add(beadL);
+
+                const posR = curveRight.getPoint(bp.t);
+                const beadR = new THREE.Mesh(new THREE.SphereGeometry(bp.scale, 16, 16), beadMat);
+                beadR.position.copy(posR);
+                rakhiGroup.add(beadR);
+            });
+
+            canvas.addEventListener('click', () => {
+                triggerRakhiDeal();
+            });
+
+            let clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+
+                rakhiGroup.rotation.y = Math.sin(elapsedTime * 0.5) * 0.4;
+                rakhiGroup.rotation.x = Math.cos(elapsedTime * 0.4) * 0.2;
+                rakhiGroup.position.y = Math.sin(elapsedTime * 1.5) * 0.1;
+
+                controls.update();
+                renderer.render(scene, camera);
+            }
+
+            animate();
+        }
+    </script>
+</body>
+</html>
