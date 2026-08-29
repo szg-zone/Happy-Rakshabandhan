@@ -716,50 +716,50 @@
 
 
     <!-- CERTIFICATE PRINT / DOWNLOAD MODAL -->
-    <div id="certificate-modal" class="fixed inset-0 z-[25000] bg-black/80 backdrop-blur-md hidden flex flex-col items-center justify-center p-4 overflow-y-auto">
-        <div class="max-w-2xl w-full bg-[#FAF6E8] text-[#1c1b1b] p-8 md:p-10 border-8 border-[#705d00] relative shadow-2xl font-serif my-8">
-            <button onclick="closeCertificate()" class="absolute top-4 right-4 bg-black text-white w-8 h-8 rounded-full font-data-mono text-sm no-print">✕</button>
+    <div id="certificate-modal" class="fixed inset-0 z-[25000] bg-black/80 backdrop-blur-md hidden flex flex-col items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        <div class="max-w-2xl w-full bg-[#FAF6E8] text-[#1c1b1b] p-4 sm:p-8 md:p-10 border-4 sm:border-8 border-[#705d00] relative shadow-2xl font-serif my-auto">
+            <button onclick="closeCertificate()" class="absolute top-2 right-2 sm:top-4 sm:right-4 bg-black text-white w-7 h-7 sm:w-8 sm:h-8 rounded-full font-data-mono text-xs sm:text-sm no-print z-10 flex items-center justify-center">✕</button>
             
-            <div class="text-center border-4 border-double border-[#705d00] p-6 bg-white">
-                <div class="font-data-mono text-xs font-bold tracking-widest text-[#705d00] uppercase">OFFICIAL REGISTRY OF HONORARY SISTERHOOD</div>
-                <h1 class="font-audit-header-xl text-3xl md:text-4xl font-black text-[#1c1b1b] uppercase tracking-wider mt-2">SISTER CERTIFICATE™</h1>
-                <div class="w-24 h-1 bg-[#705d00] mx-auto my-3"></div>
+            <div class="text-center border-2 sm:border-4 border-double border-[#705d00] p-4 sm:p-6 bg-white">
+                <div class="font-data-mono text-[10px] sm:text-xs font-bold tracking-wider sm:tracking-widest text-[#705d00] uppercase">OFFICIAL REGISTRY OF HONORARY SISTERHOOD</div>
+                <h1 class="font-audit-header-xl text-xl sm:text-3xl md:text-4xl font-black text-[#1c1b1b] uppercase tracking-tight sm:tracking-wider mt-2 break-words">SISTER CERTIFICATE™</h1>
+                <div class="w-16 sm:w-24 h-1 bg-[#705d00] mx-auto my-2 sm:my-3"></div>
                 
-                <p class="font-serif italic text-sm md:text-base text-gray-700">This official document certifies that</p>
-                <div class="font-audit-header-xl text-3xl md:text-4xl font-extrabold text-[#b7102a] uppercase my-2 underline decoration-[#ffd700]" id="cert-sister-name">SISTER</div>
-                <p class="font-serif text-sm md:text-base text-gray-800 max-w-lg mx-auto leading-relaxed">
+                <p class="font-serif italic text-xs sm:text-sm md:text-base text-gray-700">This official document certifies that</p>
+                <div class="font-audit-header-xl text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#b7102a] uppercase my-1 sm:my-2 underline decoration-[#ffd700] break-words" id="cert-sister-name">SISTER</div>
+                <p class="font-serif text-xs sm:text-sm md:text-base text-gray-800 max-w-lg mx-auto leading-relaxed px-1">
                     has officially passed all audit protocols and is legally declared a <br>
                     <strong class="text-black uppercase">"Sister From Another Mother™"</strong> <br>
                     entitled to lifetime bullying rights, late night rants, and 99.8% compatibility.
                 </p>
 
-                <div class="mt-8 flex justify-between items-end border-t-2 border-[#705d00]/50 pt-6 font-data-mono text-xs text-left">
-                    <div>
+                <div class="mt-6 sm:mt-8 flex flex-wrap sm:flex-nowrap justify-between items-center sm:items-end border-t-2 border-[#705d00]/50 pt-4 sm:pt-6 font-data-mono text-[10px] sm:text-xs text-center sm:text-left gap-3 sm:gap-0">
+                    <div class="w-full sm:w-auto">
                         <div class="text-gray-500">ISSUED BY:</div>
-                        <div class="font-bold text-sm text-black uppercase" id="cert-sender-name">YOUR BROTHER</div>
-                        <div class="text-[10px] text-gray-400">SIGNATURE: ✔ VERIFIED</div>
+                        <div class="font-bold text-xs sm:text-sm text-black uppercase" id="cert-sender-name">YOUR BROTHER</div>
+                        <div class="text-[9px] sm:text-[10px] text-gray-400">SIGNATURE: ✔ VERIFIED</div>
                     </div>
 
-                    <div class="text-center">
-                        <div class="w-16 h-16 border-4 border-double border-[#b7102a] rounded-full flex items-center justify-center font-audit-header-xl font-extrabold text-[10px] text-[#b7102a] transform -rotate-12 uppercase leading-none shadow-sm">
+                    <div class="text-center w-full sm:w-auto my-1 sm:my-0">
+                        <div class="w-14 h-14 sm:w-16 sm:h-16 border-2 sm:border-4 border-double border-[#b7102a] rounded-full flex items-center justify-center font-audit-header-xl font-extrabold text-[9px] sm:text-[10px] text-[#b7102a] transform -rotate-12 uppercase leading-none shadow-sm mx-auto">
                             OFFICIAL<br>SEAL<br>2026
                         </div>
                     </div>
 
-                    <div class="text-right">
+                    <div class="text-center sm:text-right w-full sm:w-auto">
                         <div class="text-gray-500">CERTIFICATE NO:</div>
-                        <div class="font-bold text-sm text-black">SIS-992-APPROVED</div>
-                        <div class="text-[10px] text-gray-400">NO REFUNDS / FOREVER STUCK</div>
+                        <div class="font-bold text-xs sm:text-sm text-black">SIS-992-APPROVED</div>
+                        <div class="text-[9px] sm:text-[10px] text-gray-400">NO REFUNDS / FOREVER STUCK</div>
                     </div>
                 </div>
             </div>
 
-            <div class="mt-6 flex space-x-4 no-print">
-                <button onclick="window.print()" class="flex-1 bg-primary-container text-black font-bold py-3 text-sm font-syne uppercase brutalist-button border-2 border-black flex items-center justify-center space-x-2">
+            <div class="mt-4 sm:mt-6 flex flex-col sm:flex-row gap-2 sm:space-x-4 no-print">
+                <button onclick="window.print()" class="flex-1 bg-primary-container text-black font-bold py-2.5 sm:py-3 text-xs sm:text-sm font-syne uppercase brutalist-button border-2 border-black flex items-center justify-center space-x-2">
                     <span class="material-symbols-outlined text-sm">print</span>
                     <span>PRINT / SAVE AS PDF</span>
                 </button>
-                <button onclick="closeCertificate()" class="bg-gray-800 text-white px-6 py-3 text-sm font-syne uppercase rounded">
+                <button onclick="closeCertificate()" class="bg-gray-800 text-white px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-syne uppercase rounded">
                     CLOSE
                 </button>
             </div>
