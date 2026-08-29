@@ -192,6 +192,19 @@
             overflow: hidden;
         }
 
+        /* Custom Scrollbar for Letter Modal */
+        #letter-body-scroll-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        #letter-body-scroll-container::-webkit-scrollbar-track {
+            background: #f1ebd9;
+            border-radius: 4px;
+        }
+        #letter-body-scroll-container::-webkit-scrollbar-thumb {
+            background: #b7102a;
+            border-radius: 4px;
+        }
+
         @keyframes floatParticle {
             0% { transform: translateY(0) rotate(0deg); opacity: 0.15; }
             50% { opacity: 0.5; }
@@ -666,32 +679,32 @@
 
 
     <!-- HEARTFELT TYPEWRITER LETTER MODAL -->
-    <div id="letter-modal" class="fixed inset-0 z-[30000] bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="max-w-2xl w-full bg-[#FAF6E8] text-[#1c1b1b] p-6 md:p-8 border-4 border-[#1c1b1b] shadow-[8px_8px_0_0_#ffd700] relative font-receipt-text my-8">
-            <button onclick="closeLetterModal()" class="absolute top-4 right-4 bg-[#1c1b1b] text-white w-8 h-8 rounded-full font-data-mono text-sm no-print">✕</button>
+    <div id="letter-modal" class="fixed inset-0 z-[30000] bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="max-w-2xl w-full max-h-[90vh] bg-[#FAF6E8] text-[#1c1b1b] p-5 md:p-8 border-4 border-[#1c1b1b] shadow-[8px_8px_0_0_#ffd700] relative font-receipt-text my-auto flex flex-col">
+            <button onclick="closeLetterModal()" class="absolute top-4 right-4 bg-[#1c1b1b] text-white w-8 h-8 rounded-full font-data-mono text-sm no-print z-10">✕</button>
             
-            <div class="border-2 border-dashed border-[#1c1b1b] p-6 bg-white relative overflow-hidden">
+            <div class="border-2 border-dashed border-[#1c1b1b] p-4 md:p-6 bg-white relative flex flex-col flex-1 overflow-hidden">
                 <!-- Top Letter Header -->
-                <div class="flex justify-between items-center border-b-2 border-[#1c1b1b] pb-3 mb-4">
+                <div class="flex justify-between items-center border-b-2 border-[#1c1b1b] pb-3 mb-4 flex-shrink-0">
                     <div class="font-audit-header-xl text-xl font-bold text-[#b7102a] uppercase" id="title-letter">FOR SISTER</div>
                     <div class="text-xs font-data-mono bg-[#ffd700] px-2 py-0.5 border border-[#1c1b1b] font-bold">RAKSHA BANDHAN LETTER</div>
                 </div>
 
-                <div class="flex flex-col sm:flex-row gap-4 items-start">
+                <div class="flex flex-col sm:flex-row gap-4 items-start flex-1 overflow-hidden">
                     <!-- Left GIF & Heart Animation -->
                     <div class="flex-shrink-0 flex flex-col items-center justify-center space-y-2 mx-auto sm:mx-0">
                         <img src="img/mewmew.gif" class="w-20 h-20 object-contain border border-[#1c1b1b] rounded bg-[#FAF6E8]" alt="Mewmew">
                         <div class="text-[10px] font-data-mono text-gray-500 uppercase">WITH LOVE ❤️</div>
                     </div>
 
-                    <!-- Right Typewriter Body -->
-                    <div class="flex-1">
+                    <!-- Right Typewriter Body with Smooth Scrollbar -->
+                    <div class="flex-1 max-h-[45vh] md:max-h-[55vh] overflow-y-auto pr-2 w-full" id="letter-body-scroll-container">
                         <p id="body-letter" class="text-sm md:text-base leading-relaxed text-[#1c1b1b] min-h-[140px] whitespace-pre-wrap font-receipt-text">
                         </p>
                     </div>
                 </div>
 
-                <div class="mt-6 border-t-2 border-[#1c1b1b] pt-4 flex justify-between items-center text-xs font-data-mono">
+                <div class="mt-4 border-t-2 border-[#1c1b1b] pt-4 flex justify-between items-center text-xs font-data-mono flex-shrink-0">
                     <div class="text-gray-600">SENDER: <strong id="letter-sender-name" class="text-black uppercase">YOUR BROTHER</strong></div>
                     <button onclick="closeLetterModal()" class="bg-[#b7102a] text-white px-4 py-2 font-bold uppercase brutalist-button text-xs">
                         CLOSE LETTER
@@ -967,7 +980,7 @@
             }
         }
 
-        // TYPEWRITER LETTER MODAL ENGINE
+        // TYPEWRITER LETTER MODAL ENGINE WITH AUTO SCROLLING
         let letterTimers = [];
         function clearLetterTimers() {
             letterTimers.forEach(t => clearInterval(t));
@@ -978,9 +991,13 @@
         function typeIntoElement(el, text, speed, done) {
             let i = 0;
             el.textContent = "";
+            const scrollContainer = document.getElementById("letter-body-scroll-container") || el.parentElement;
             const iv = setInterval(() => {
                 if (i < text.length) {
                     el.textContent += text.charAt(i++);
+                    if (scrollContainer) {
+                        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+                    }
                 } else {
                     clearInterval(iv);
                     if (done) done();
